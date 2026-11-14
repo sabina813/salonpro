@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SalonPro</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#fdeefa;min-height:100vh;
+background:#0f0716}
+.wrap{max-width:1240px;margin:0 auto;padding:18px}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(14px);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #0004}
+h1,h2{margin:0 0 12px;letter-spacing:-.02em}h2{font-size:18px}
+input,select,button{font:inherit;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.14);margin:4px 6px 4px 0;background:rgba(255,255,255,.07);color:#fff;outline:none;color-scheme:dark}
+input:focus,select:focus{border-color:#f472b6;box-shadow:0 0 0 3px #ec489955}
+::placeholder{color:#b995b8}select option{background:#1d0f22}
+button{background:linear-gradient(135deg,#ec4899,#8b5cf6);border:0;cursor:pointer;font-weight:600;transition:.15s}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 18px #ec489966}button:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+button.alt{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14)}button.sm{padding:6px 10px;font-size:13px;border-radius:9px}
+nav.card{padding:10px;display:flex;gap:6px;flex-wrap:wrap}nav button{background:transparent;color:#d4b3d3;border-radius:999px;padding:10px 16px;margin:0}
+nav button.on{background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff}
+.brand{display:flex;align-items:center;gap:12px}.brand h1{margin:0;font-size:22px}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#ec4899,#a78bfa);display:grid;place-items:center;font-size:22px;color:#fff;box-shadow:0 6px 18px #ec489988}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}.who{color:#d4b3d3;font-size:14px}
+.split{display:grid;grid-template-columns:1.1fr 1fr;max-width:1100px;min-height:600px;margin:5vh auto;border-radius:26px;overflow:hidden;box-shadow:0 30px 70px #0008;border:1px solid rgba(255,255,255,.1)}
+.hero{padding:44px 36px;background:linear-gradient(150deg,#db2777,#7c3aed);display:flex;flex-direction:column;justify-content:center}
+.hero h2{font-size:30px;line-height:1.15;margin:22px 0 10px}.hero p{opacity:.9;margin:0 0 18px}
+.hero ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}.hero li{background:#ffffff22;padding:10px 14px;border-radius:12px}
+.auth{padding:44px 36px;background:rgba(21,10,24,.88)}.auth input{width:100%;margin:6px 0}.auth h1{font-size:26px}.sub{color:#c7a6c6;margin:0 0 14px}.auth button{margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:14px}th{color:#c7a6c6;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+th,td{padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}tr:hover td{background:rgba(255,255,255,.03)}
+.tbl{overflow-x:auto}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.stat{border-radius:16px;padding:16px;font-size:13px;color:#e6cbe5;border:1px solid rgba(255,255,255,.1)}
+.stat i{font-style:normal;font-size:24px;display:block;margin-bottom:6px}.stat b{display:block;font-size:22px;margin-top:4px;color:#fff}
+.s1{background:linear-gradient(135deg,#ec489933,#ec48990d)}.s2{background:linear-gradient(135deg,#10b98133,#10b9810d)}
+.s3{background:linear-gradient(135deg,#8b5cf633,#8b5cf60d)}.s4{background:linear-gradient(135deg,#f59e0b33,#f59e0b0d)}
+.badge{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.g{background:#10b98126;color:#34d399}.r{background:#f43f5e26;color:#fb7185}.y{background:#f59e0b26;color:#fbbf24}.p{background:#8b5cf626;color:#c4b5fd}
+.err{color:#fb7185;min-height:20px}
+@media(max-width:720px){.split{grid-template-columns:1fr;margin:0}.hero{padding:28px}.hero h2{font-size:24px}.auth{padding:28px}}
+.bg{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;background:radial-gradient(1200px 700px at 50% 120%,#3b0a45 0%,transparent 70%)}
+.bg:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
+.bg i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:fl 18s ease-in-out infinite alternate}
+.bg i:nth-child(1){width:520px;height:520px;background:#ec4899;left:-120px;top:-120px}
+.bg i:nth-child(2){width:600px;height:600px;background:#7c3aed;right:-160px;top:10%;animation-duration:24s}
+.bg i:nth-child(3){width:460px;height:460px;background:#06b6d4;left:35%;bottom:-200px;animation-duration:21s;opacity:.35}
+@keyframes fl{to{transform:translate(60px,80px) scale(1.15)}}
+.wrap{position:relative;z-index:1}
+.book{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start}.side{position:sticky;top:12px}.side input{width:100%;margin:6px 0}
+.svcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.svc{padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);cursor:pointer;display:grid;gap:6px;transition:.15s}.svc span{color:#d4b3d3;font-size:13px}.svc:hover{transform:translateY(-2px)}
+.svc.on,.chip.on,.slot.on{background:linear-gradient(135deg,#ec4899,#8b5cf6);border-color:transparent;color:#fff}.svc.on span{color:#fff}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:14px}.slot{margin:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
+.sum{background:#ffffff12;border-radius:14px;padding:12px;margin:10px 0;font-size:14px;line-height:1.7}
+.done{text-align:center;max-width:520px;margin:6vh auto}.done .big{font-size:56px}
+@media(max-width:860px){.book{grid-template-columns:1fr}.side{position:static}}
+</style>
+</head>
+<body>
+<div class="bg"><i></i><i></i><i></i></div>
+<div class="wrap" id="app"></div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => Number(n).toLocaleString('uz') + " so'm";
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const today = () => new Date().toISOString().slice(0, 10);
+const addDays = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+
+const EMPTY = { users: [], clients: [], services: [], staff: [], appts: [], payments: [] };
+let S = Object.assign({}, EMPTY, JSON.parse(localStorage.getItem('salonpro') || '{}'));
+const save = () => localStorage.setItem('salonpro', JSON.stringify(S));
+let me = sessionStorage.getItem('me'), tab = 'report';
+const user = () => S.users.find(u => u.id === me);
+const mine = k => S[k].filter(x => x.u === me);
+const byId = (k, id) => S[k].find(x => x.id === id) || {};
+const appts = () => mine('appts').map(a => {
+  const paid = S.payments.filter(p => p.a === a.id).reduce((s, p) => s + p.amount, 0);
+  const price = byId('services', a.sid).price || 0;
+  return { ...a, price, paid, left: Math.max(price - paid, 0) };
+}).sort((x, y) => (x.date + x.time).localeCompare(y.date + y.time));
+
+async function hash(s) {
+  if (window.crypto && crypto.subtle) {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+  return btoa(unescape(encodeURIComponent(s)));
+}
+
+function authView(reg) {
+  $('#app').innerHTML = `<div class="split"><div class="hero"><div class="logo">✂</div><h2>Salonni bir joydan boshqaring</h2><p>Mijoz, xizmat, xodim, navbat va to‘lovlar yagona tizimda.</p><ul><li>📅 Navbatlar va band vaqtlar nazorati</li><li>💅 Xizmatlar va xodimlar ro‘yxati</li><li>📊 Kunlik tushum hisoboti</li></ul></div><div class="auth"><h1>${reg ? 'Xush kelibsiz ✨' : 'Qayta xush kelibsiz'}</h1>
+  <p class="sub">${reg ? 'Birinchi kirish: Gmail, login va parol belgilang' : 'Tizimga kiring'}</p>
+  ${reg ? '<input id="em" type="email" placeholder="Gmail (misol@gmail.com)">' : ''}
+  <input id="lg" placeholder="Login"><input id="pw" type="password" placeholder="Parol">
+  <div class="err" id="err"></div>
+  <button id="go">${reg ? 'Ro‘yxatdan o‘tish' : 'Kirish'}</button>
+  <button class="alt" id="sw">${reg ? 'Hisobim bor' : 'Yangi hisob'}</button><button class="alt" id="bk">💁 Mijoz: navbat olish</button></div></div>`;
+  $('#sw').onclick = () => authView(!reg);
+  $('#bk').onclick = () => openBook(S.users[0] && S.users[0].id);
+  $('#go').onclick = async () => {
+    const lg = $('#lg').value.trim(), pw = $('#pw').value, err = m => $('#err').textContent = m;
+    if (reg) {
+      const em = $('#em').value.trim().toLowerCase();
+      if (!/^[^\s@]+@gmail\.com$/.test(em)) return err('To‘g‘ri Gmail kiriting');
+      if (lg.length < 3) return err('Login kamida 3 belgi');
+      if (pw.length < 6) return err('Parol kamida 6 belgi');
+      if (S.users.some(u => u.login === lg)) return err('Bu login band');
+      const u = { id: uid(), email: em, login: lg, hash: await hash(pw) };
+      S.users.push(u); save(); me = u.id;
+    } else {
+      const u = S.users.find(x => x.login === lg);
+      if (!u || u.hash !== await hash(pw)) return err('Login yoki parol noto‘g‘ri');
+      me = u.id;
+    }
+    sessionStorage.setItem('me', me); render();
+  };
+}
+const logout = () => { sessionStorage.removeItem('me'); me = null; start(); };
+
+// Gmail xat yozish oynasini ochadi (Gmail'da "Send" ni bosasiz)
+const gmail = (to, su, body) => window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(su)}&body=${encodeURIComponent(body)}`, '_blank');
+
+const stBadge = a => a.status === 'bekor' ? '<span class="badge r">Bekor</span>' : a.status === 'bajarildi' ? '<span class="badge g">Bajarildi</span>' : '<span class="badge p">Kutilmoqda</span>';
+const payBadge = a => a.status === 'bekor' ? '' : a.left <= 0 ? '<span class="badge g">To‘langan</span>' : a.paid > 0 ? '<span class="badge y">Qisman</span>' : '<span class="badge y">To‘lanmagan</span>';
+
+function render() {
+  const tabs = { report: '📊 Hisobot', appts: '📅 Navbatlar', clients: '👥 Mijozlar', services: '💅 Xizmatlar', staff: '🧑‍🎨 Xodimlar' };
+  $('#app').innerHTML = `<div class="card top"><div class="brand"><div class="logo">✂</div><h1>SalonPro</h1></div><div class="who">${esc(user().login)} (${esc(user().email)}) <button class="alt sm" onclick="openBook(me)">🔗 Mijoz sahifasi</button><button class="alt sm" onclick="logout()">Chiqish</button></div></div>
+  <nav class="card">${Object.entries(tabs).map(([k, v]) => `<button class="${tab === k ? 'on' : ''}" onclick="tab='${k}';render()">${v}</button>`).join('')}</nav><div id="view"></div>`;
+  (tab === 'report' ? rReport : tab === 'appts' ? rAppts : () => rList(tab))();
+}
+
+function rReport() {
+  const as = appts(), act = as.filter(a => a.status !== 'bekor');
+  const td = act.filter(a => a.date === today()), tm = act.filter(a => a.date === addDays(1));
+  const pays = mine('payments'), sum = l => l.reduce((s, p) => s + p.amount, 0);
+  const todayRev = sum(pays.filter(p => p.date === today())), total = sum(pays);
+  const rows = (k, f) => mine(k).map(x => ({ n: x.name, c: act.filter(a => f(a) === x.id).length, r: sum(pays.filter(p => { const a = as.find(q => q.id === p.a); return a && f(a) === x.id; })) }));
+  const tbl = (t, r, h) => `<div class="card tbl"><h2>${t}</h2><table><tr><th>${h}</th><th>Navbat</th><th>Tushum</th></tr>${r.map(x => `<tr><td>${esc(x.n)}</td><td>${x.c}</td><td>${money(x.r)}</td></tr>`).join('') || '<tr><td colspan=3>Ma’lumot yo‘q</td></tr>'}</table></div>`;
+  $('#view').innerHTML = `<div class="card"><h2>Umumiy hisobot</h2><div class="stats">
+  <div class="stat s1"><i>📅</i>Bugungi navbatlar<b>${td.length} ta</b></div><div class="stat s2"><i>💰</i>Bugungi tushum<b>${money(todayRev)}</b></div>
+  <div class="stat s3"><i>🏦</i>Jami tushum<b>${money(total)}</b></div><div class="stat s4"><i>👥</i>Mijozlar<b>${mine('clients').length} ta</b></div></div></div>
+  <div class="card"><h2>Eslatma</h2><p>Ertangi navbatlar: <b>${tm.length} ta</b></p><button id="dg" ${tm.length ? '' : 'disabled'}>Gmailimga ertangi navbatlar ro‘yxatini yuborish</button></div>
+  ${tbl('Xodimlar bo‘yicha', rows('staff', a => a.stid), 'Xodim')}${tbl('Xizmatlar bo‘yicha', rows('services', a => a.sid), 'Xizmat')}`;
+  $('#dg').onclick = () => gmail(user().email, `Ertangi navbatlar (${tm.length} ta)`, tm.map(a => `• ${a.time} ${byId('clients', a.cid).name} - ${byId('services', a.sid).name} (${byId('staff', a.stid).name})`).join('\n'));
+}
+
+function rAppts() {
+  const opt = k => mine(k).map(x => `<option value="${x.id}">${esc(x.name)}</option>`).join('');
+  const as = appts();
+  $('#view').innerHTML = `<div class="card"><h2>Yangi navbat</h2>
+  <select id="ac">${opt('clients')}</select><select id="as">${opt('services')}</select><select id="at">${opt('staff')}</select>
+  <input id="ad" type="date" value="${today()}"><input id="am" type="time">
+  <button id="aadd">Qo‘shish</button><div class="err" id="err"></div></div>
+  <div class="card tbl"><h2>Navbatlar</h2><table><tr><th>Sana</th><th>Mijoz</th><th>Xizmat</th><th>Xodim</th><th>Narx</th><th>Holat</th><th>To‘lov</th><th></th></tr>
+  ${as.map(a => `<tr><td>${a.date}<br>${a.time}</td><td>${esc(byId('clients', a.cid).name)}</td><td>${esc(byId('services', a.sid).name)}</td><td>${esc(byId('staff', a.stid).name)}</td><td>${money(a.price)}</td><td>${stBadge(a)}</td><td>${payBadge(a)}</td>
+  <td>${a.status === 'bekor' ? '' : `${a.status === 'kutilmoqda' ? `<button class="sm" onclick="setSt('${a.id}','bajarildi')">✔</button>` : ''}${a.left > 0 ? `<button class="sm" onclick="pay('${a.id}')">To‘lov</button>` : ''}<button class="alt sm" onclick="remind('${a.id}')">Eslatma</button><button class="alt sm" onclick="setSt('${a.id}','bekor')">✖</button>`}</td></tr>`).join('') || '<tr><td colspan=8>Hali navbat yo‘q</td></tr>'}</table></div>`;
+  $('#aadd').onclick = () => {
+    const a = { id: uid(), u: me, cid: $('#ac').value, sid: $('#as').value, stid: $('#at').value, date: $('#ad').value, time: $('#am').value, status: 'kutilmoqda' };
+    if (!a.cid || !a.sid || !a.stid) return $('#err').textContent = 'Avval mijoz, xizmat va xodim qo‘shing';
+    if (!a.date || !a.time) return $('#err').textContent = 'Sana va vaqtni kiriting';
+    if (mine('appts').some(x => x.status !== 'bekor' && x.stid === a.stid && x.date === a.date && x.time === a.time)) return $('#err').textContent = 'Bu vaqtda xodim band';
+    S.appts.push(a); save(); render();
+  };
+}
+function setSt(id, st) { byId('appts', id).status = st; save(); render(); }
+function pay(id) {
+  const a = appts().find(x => x.id === id), v = Number(prompt(`To'lov summasi (qoldiq ${a.left}):`, a.left));
+  if (!v) return;
+  if (v <= 0 || v > a.left) return alert(`To‘lov 0 dan katta va ${a.left} dan oshmasligi kerak`);
+  S.payments.push({ id: uid(), u: me, a: id, amount: v, date: today() }); save(); render();
+}
+function remind(id) {
+  const a = byId('appts', id), c = byId('clients', a.cid);
+  gmail(c.email || user().email, 'Navbat eslatmasi', `Hurmatli ${c.name}, sizning navbatingiz: ${a.date} soat ${a.time}, xizmat: ${byId('services', a.sid).name}. Kutib qolamiz!`);
+}
+
+const LISTS = {
+  clients: { t: 'mijoz', f: [['name', 'Ism'], ['phone', 'Telefon'], ['email', 'Gmail (ixtiyoriy)', 'email']] },
+  services: { t: 'xizmat', f: [['name', 'Xizmat nomi'], ['price', 'Narx (so‘m)', 'number'], ['min', 'Daqiqa', 'number']] },
+  staff: { t: 'xodim', f: [['name', 'Ism'], ['role', 'Lavozim (sartarosh, ustoz...)']] }
+};
+function rList(k) {
+  const L = LISTS[k], cell = (f, x) => f[0] === 'price' ? money(x.price) : esc(x[f[0]]);
+  $('#view').innerHTML = `<div class="card"><h2>Yangi ${L.t}</h2>${L.f.map(f => `<input id="f_${f[0]}" type="${f[2] || 'text'}" placeholder="${f[1]}">`).join('')}
+  <button id="fa">Qo‘shish</button><div class="err" id="err"></div></div>
+  <div class="card tbl"><h2>Ro‘yxat</h2><table><tr>${L.f.map(f => `<th>${f[1].split(' (')[0]}</th>`).join('')}<th></th></tr>
+  ${mine(k).map(x => `<tr>${L.f.map(f => `<td>${cell(f, x)}</td>`).join('')}<td><button class="alt sm" onclick="del('${k}','${x.id}')">O‘chirish</button></td></tr>`).join('') || `<tr><td colspan=${L.f.length + 1}>Hali yo‘q</td></tr>`}</table></div>`;
+  $('#fa').onclick = () => {
+    const x = { id: uid(), u: me };
+    L.f.forEach(f => x[f[0]] = f[2] === 'number' ? Number($('#f_' + f[0]).value) : $('#f_' + f[0]).value.trim());
+    if (!x.name) return $('#err').textContent = 'Nomi yoki ismi kerak';
+    if (k === 'services' && !(x.price > 0)) return $('#err').textContent = 'Narxni kiriting';
+    S[k].push(x); save(); render();
+  };
+}
+function del(k, id) {
+  if (!confirm('O‘chirilsinmi?')) return;
+  S[k] = S[k].filter(x => x.id !== id); save(); render();
+}
+
+
+// ---------- MIJOZLAR UCHUN: onlayn navbat olish ----------
+let owner = null, bk = {};
+const O = k => S[k].filter(x => x.u === owner);
+function openBook(o) {
+  if (!o) return alert('Salon hali sozlanmagan. Avval ro‘yxatdan o‘ting.');
+  owner = o; bk = { sid: '', stid: 'any', date: today(), time: '', name: '', phone: '', email: '' }; bookView();
+}
+const timeSlots = () => { const r = []; for (let h = 9; h < 20; h++) ['00', '30'].forEach(m => r.push(String(h).padStart(2, '0') + ':' + m)); return r; };
+const freeStaff = t => (bk.stid === 'any' ? O('staff') : O('staff').filter(s => s.id === bk.stid))
+  .filter(s => !O('appts').some(a => a.status !== 'bekor' && a.stid === s.id && a.date === bk.date && a.time === t));
+function bookView() {
+  const sv = O('services'), st = O('staff'), days = [0, 1, 2, 3, 4, 5, 6].map(addDays), nowT = new Date().toTimeString().slice(0, 5);
+  const x = sv.find(v => v.id === bk.sid);
+  $('#app').innerHTML = `<div class="card top"><div class="brand"><div class="logo">✂</div><h1>SalonPro · Navbat olish</h1></div><button class="alt sm" onclick="start()">← Orqaga</button></div>
+  <div class="book"><div>
+  <div class="card"><h2>1. Xizmatni tanlang</h2><div class="svcs">${sv.map(v => `<div class="svc ${bk.sid === v.id ? 'on' : ''}" onclick="bk.sid='${v.id}';bookView()"><b>${esc(v.name)}</b><span>${money(v.price)}${v.min ? ' · ' + v.min + ' daq' : ''}</span></div>`).join('') || '<p>Xizmatlar hali qo‘shilmagan</p>'}</div></div>
+  <div class="card"><h2>2. Mutaxassis</h2><div class="chips"><span class="chip ${bk.stid === 'any' ? 'on' : ''}" onclick="bk.stid='any';bk.time='';bookView()">✨ Istalgan</span>${st.map(v => `<span class="chip ${bk.stid === v.id ? 'on' : ''}" onclick="bk.stid='${v.id}';bk.time='';bookView()">${esc(v.name)}</span>`).join('')}</div></div>
+  <div class="card"><h2>3. Sana va vaqt</h2><div class="chips">${days.map(d => `<span class="chip ${bk.date === d ? 'on' : ''}" onclick="bk.date='${d}';bk.time='';bookView()">${d.slice(5).replace('-', '.')}</span>`).join('')}</div>
+  <div class="slots">${timeSlots().map(t => { const ok = freeStaff(t).length && !(bk.date === today() && t <= nowT); return `<button class="slot ${bk.time === t ? 'on' : ''}" ${ok ? '' : 'disabled'} onclick="bk.time='${t}';bookView()">${t}</button>`; }).join('')}</div></div>
+  </div><div class="card side"><h2>4. Ma’lumotlaringiz</h2>
+  <input placeholder="Ismingiz" value="${esc(bk.name)}" oninput="bk.name=this.value"><input type="tel" placeholder="Telefon raqamingiz" value="${esc(bk.phone)}" oninput="bk.phone=this.value">
+  <input type="email" placeholder="Gmail (ixtiyoriy, tasdiq uchun)" value="${esc(bk.email)}" oninput="bk.email=this.value">
+  <div class="sum">💅 ${x ? esc(x.name) + ' · ' + money(x.price) : 'Xizmat tanlanmagan'}<br>📅 ${bk.date} ${bk.time || '—'}</div>
+  <div class="err" id="berr"></div><button style="width:100%" onclick="confirmBook()">Navbatni tasdiqlash ✔</button></div></div>`;
+}
+function confirmBook() {
+  const err = m => $('#berr').textContent = m, free = freeStaff(bk.time)[0];
+  if (!bk.sid) return err('Xizmatni tanlang');
+  if (!bk.time) return err('Vaqtni tanlang');
+  if (!bk.name.trim()) return err('Ismingizni kiriting');
+  if (bk.phone.replace(/\D/g, '').length < 7) return err('Telefon raqamini to‘g‘ri kiriting');
+  if (!free) return err('Bu vaqt band, boshqasini tanlang');
+  let c = O('clients').find(q => q.phone === bk.phone.trim());
+  if (!c) { c = { id: uid(), u: owner, name: bk.name.trim(), phone: bk.phone.trim(), email: bk.email.trim() }; S.clients.push(c); }
+  const a = { id: uid(), u: owner, cid: c.id, sid: bk.sid, stid: free.id, date: bk.date, time: bk.time, status: 'kutilmoqda' };
+  S.appts.push(a); save();
+  const sv = byId('services', a.sid);
+  $('#app').innerHTML = `<div class="card done"><div class="big">🎉</div><h1>Navbat qabul qilindi!</h1>
+  <div class="sum">💅 ${esc(sv.name)} · ${money(sv.price)}<br>🧑‍🎨 ${esc(free.name)}<br>📅 ${a.date}, soat ${a.time}</div>
+  <button onclick="gmail('${esc(bk.email.trim() || (S.users.find(u => u.id === owner) || {}).email || '')}','Navbat tasdig‘i','${esc(c.name)}, navbatingiz: ${a.date} soat ${a.time}, ${esc(sv.name)}. Kutib qolamiz!')">📧 Gmailga tasdiq</button>
+  <button class="alt" onclick="openBook(owner)">Yana navbat</button><button class="alt" onclick="start()">Bosh sahifa</button></div>`;
+}
+
+function start() { me && user() ? render() : authView(S.users.length === 0); }
+start();
+</script>
+</body>
+</html>
